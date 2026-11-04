@@ -26,9 +26,9 @@ a{color:inherit}
 .shadow{box-shadow:5px 5px 0 rgba(0,0,0,.35)}
 /* hero */
 .cover{display:block;width:min(100%,300px);align-self:center;background:var(--xp);border:2px solid;border-color:#fff #404040 #404040 #fff;padding:6px}
-.cover img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover}
+.cover img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover}
 .kicker{margin:0;font-family:Silkscreen,monospace;font-size:12px;color:#c8ffff;letter-spacing:2px}
-h1{margin:0;font-family:VT323,monospace;font-weight:400;font-size:clamp(40px,12vw,76px);line-height:.9;color:#fff;text-shadow:3px 3px 0 #003c3c;overflow-wrap:anywhere}
+h1{margin:0;font-family:VT323,monospace;font-weight:400;font-size:clamp(36px,10.5vw,76px);line-height:.9;color:#fff;text-shadow:3px 3px 0 #003c3c;overflow-wrap:anywhere}
 h1 span{color:var(--acc)}
 .lead{margin:0;font-size:15px;line-height:1.5;color:#e6ffff}
 .cd{align-self:flex-start;background:#000;color:var(--acc);font-family:VT323,monospace;font-size:24px;padding:4px 10px;border:2px solid #003c3c}
@@ -97,11 +97,29 @@ h1 span{color:var(--acc)}
 @keyframes buzz{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,240,0,0)}50%{box-shadow:0 0 0 3px rgba(0,240,0,.45)}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
-/* desktop: two columns */
-@media (min-width:960px){
-  .desk{flex-direction:row;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:32px;padding:48px 24px}
-  .col.hero{max-width:360px;align-self:center}
-  .col.msncol{max-width:400px}
+/* horizontal: ordenador o móvil/tablet en horizontal */
+@media (orientation:landscape) and (min-width:700px){
+  .desk{flex-direction:row;flex-wrap:nowrap;justify-content:center;align-items:flex-start;gap:clamp(14px,2.5vw,32px);padding:clamp(16px,4vh,48px) clamp(16px,3vw,32px)}
+  .col{flex:1 1 0;min-width:0}
+  .col.hero{max-width:340px;align-self:center}
+  .col.msncol{max-width:380px}
+  .cover{width:min(100%,300px,46vh)}
+  h1{font-size:clamp(34px,3.8vw,64px)}
+}
+/* móvil en horizontal (poca altura): todo más compacto */
+@media (orientation:landscape) and (max-height:520px){
+  .desk{padding-top:12px;padding-bottom:12px}
+  .lead{font-size:13px}
+  .kicker{display:none}
+  .chat{max-height:34vh}
+  .dsp a,.xb,.row input{min-height:44px;height:auto}
+  .task{height:38px}
+}
+/* entre 700 y 1000 px en horizontal: hero y reproductor arriba, MSN debajo */
+@media (orientation:landscape) and (min-width:700px) and (max-width:1000px){
+  .desk{flex-wrap:wrap}
+  .col.hero,.col:not(.msncol){flex:1 1 300px}
+  .col.msncol{flex:1 1 100%;max-width:720px}
 }
 </style>
 </head>
@@ -205,7 +223,7 @@ h1 span{color:var(--acc)}
   function say(t){$('status').textContent=t}
   document.querySelectorAll('.wbtn').forEach(function(b){b.addEventListener('click',function(){say(b.dataset.msg)})});
   // pre-save: abrir HyperFollow en ventana emergente; si se bloquea, el enlace abre pestaña normal
-  var mobile=window.matchMedia('(max-width:700px)').matches;
+  var mobile=window.matchMedia('(pointer:coarse)').matches;
   document.querySelectorAll('.presave').forEach(function(a){
     a.addEventListener('click',function(e){
       say('pre-save abierto >>');
